@@ -17,7 +17,9 @@ export default function RiskAlerts({ risks }) {
           >
             <div className="flex items-center justify-between">
               <span className="font-semibold">{risk.title}</span>
-              <span className="text-xs uppercase tracking-wide">{risk.level}</span>
+              <span className="text-xs uppercase tracking-wide">
+                {risk.level} {risk.source ? `(${risk.source})` : ""}
+              </span>
             </div>
             <p className="mt-1 text-xs opacity-90">{risk.rationale}</p>
           </div>
