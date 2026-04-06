@@ -24,6 +24,17 @@ function nowIso() {
   return new Date().toISOString();
 }
 
+function buildDocumentMeta(file, source) {
+  return {
+    id: createId(),
+    name: file.name,
+    type: file.type || "unknown",
+    size: file.size || 0,
+    uploadedAt: nowIso(),
+    source
+  };
+}
+
 function normalizeTags(tags) {
   return tags
     .split(",")
@@ -200,6 +211,7 @@ function defaultPatients() {
       priority: "high",
       status: "watch",
       notes: "BP trending up over last 2 visits.",
+      documents: [],
       createdAt: nowIso(),
       updatedAt: nowIso(),
       history: []
@@ -212,6 +224,7 @@ function defaultPatients() {
       priority: "medium",
       status: "stable",
       notes: "Monitor adherence to lisinopril.",
+      documents: [],
       createdAt: nowIso(),
       updatedAt: nowIso(),
       history: []
@@ -237,7 +250,11 @@ export function useClinic() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw);
+        const parsed = JSON.parse(raw).map((patient) => ({
+          documents: [],
+          ...patient,
+          documents: patient.documents || []
+        }));
         setPatients(parsed);
         setSelectedId(parsed[0]?.id || null);
         return;
@@ -321,6 +338,7 @@ export function useClinic() {
       priority: payload.priority || "medium",
       status: "stable",
       notes: payload.notes || "",
+      documents: [],
       createdAt: nowIso(),
       updatedAt: nowIso(),
       history: []
@@ -400,6 +418,22 @@ export function useClinic() {
     await analyzeForPatient(id, note);
   };
 
+  const addDocuments = (id, files, source = "doctor") => {
+    if (!id || !files?.length) return;
+    const entries = Array.from(files).map((file) => buildDocumentMeta(file, source));
+    setPatients((prev) =>
+      prev.map((patient) => {
+        if (patient.id !== id) return patient;
+        const existing = patient.documents || [];
+        return {
+          ...patient,
+          documents: [...entries, ...existing],
+          updatedAt: nowIso()
+        };
+      })
+    );
+  };
+
   const recurring = useMemo(() => {
     return recurringRisks(selectedPatient?.history || []);
   }, [selectedPatient]);
@@ -442,6 +476,7 @@ export function useClinic() {
     addPatient,
     updatePatient,
     removePatient,
+    addDocuments,
     analyzeForPatient,
     runScenarioSet,
     simulateUpdate

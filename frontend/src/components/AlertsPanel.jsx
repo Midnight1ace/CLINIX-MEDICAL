@@ -20,7 +20,9 @@ export default function AlertsPanel({ alerts, threshold, onThresholdChange, live
           onChange={(event) => onThresholdChange(Number(event.target.value))}
           className="mt-2 w-full"
         />
-        <p className="mt-2 text-xs text-slate-300">Showing alerts with score >= {threshold}</p>
+        <p className="mt-2 text-xs text-slate-300">
+          Showing alerts with score {" >= "} {threshold}
+        </p>
       </div>
       <div className="space-y-3">
         {alerts.length === 0 && (

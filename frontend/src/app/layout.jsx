@@ -1,8 +1,8 @@
 import "../styles/globals.css";
-import { Space_Grotesk, Source_Sans_3 } from "next/font/google";
+import { Manrope, Plus_Jakarta_Sans } from "next/font/google";
 
-const heading = Space_Grotesk({ subsets: ["latin"], variable: "--font-heading" });
-const body = Source_Sans_3({ subsets: ["latin"], variable: "--font-body" });
+const heading = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-heading" });
+const body = Manrope({ subsets: ["latin"], variable: "--font-body" });
 
 export const metadata = {
   title: "CLINIX",
