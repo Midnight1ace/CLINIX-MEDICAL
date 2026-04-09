@@ -123,10 +123,6 @@ export default function PatientPortal() {
     }
   }, [requestedId]);
 
-  if (!authReady) {
-    return null;
-  }
-
   const latestRun = useMemo(() => patient.history?.[0] || null, [patient]);
   const documents = patient.documents || [];
 
@@ -181,6 +177,10 @@ export default function PatientPortal() {
     setPatient(nextPatients[patientIndex]);
     event.target.value = "";
   };
+
+  if (!authReady) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
