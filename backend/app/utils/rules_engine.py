@@ -1,4 +1,4 @@
-from __future__ import annotations
+from typing import List
 
 from ..core.constants import (
     AGE_ELDERLY,
@@ -13,8 +13,8 @@ from ..models.patient import PatientData
 from ..models.risk import RiskItem
 
 
-def detect_risks(patient: PatientData) -> list[RiskItem]:
-    risks: list[RiskItem] = []
+def detect_risks(patient: PatientData) -> List[RiskItem]:
+    risks: List[RiskItem] = []
 
     sys_bp = patient.vitals.bp_systolic
     dia_bp = patient.vitals.bp_diastolic

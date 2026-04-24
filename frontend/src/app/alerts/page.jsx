@@ -1,7 +1,7 @@
 "use client";
 
-import DoctorShell from "../../components/DoctorShell";
-import AlertsPanel from "../../components/AlertsPanel";
+import DoctorShell from "../../components/layout/DoctorShell";
+import AlertsPanel from "../../components/panels/AlertsPanel";
 import { useClinic } from "../../hooks/useClinic";
 
 export default function AlertsPage() {

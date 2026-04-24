@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import DoctorShell from "../../../components/DoctorShell";
+import DoctorShell from "../../../components/layout/DoctorShell";
 import { useClinic } from "../../../hooks/useClinic";
 
 const PRIORITIES = ["low", "medium", "high", "critical"];
@@ -50,6 +50,7 @@ export default function AddPatientPage() {
                 value={form.name}
                 onChange={updateField("name")}
                 placeholder="Patient name"
+                autoComplete="name"
               />
             </label>
             <label className="text-sm text-slate-600">
@@ -59,6 +60,8 @@ export default function AddPatientPage() {
                 value={form.age}
                 onChange={updateField("age")}
                 placeholder="Age"
+                autoComplete="bday-year"
+                type="number"
               />
             </label>
             <label className="text-sm text-slate-600">
@@ -68,6 +71,7 @@ export default function AddPatientPage() {
                 value={form.tags}
                 onChange={updateField("tags")}
                 placeholder="cardio, follow-up"
+                autoComplete="off"
               />
             </label>
             <label className="text-sm text-slate-600">
@@ -91,6 +95,7 @@ export default function AddPatientPage() {
                 value={form.notes}
                 onChange={updateField("notes")}
                 placeholder="Case notes or initial observations."
+                autoComplete="off"
               />
             </label>
           </div>

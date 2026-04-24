@@ -41,3 +41,8 @@ Thumbs.db
 
 # Generated data
 data/seed_patients.json
+
+# Logs
+logs/
+*.log
+logs-*

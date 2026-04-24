@@ -1,6 +1,6 @@
 "use client";
 
-import DoctorShell from "../../components/DoctorShell";
+import DoctorShell from "../../components/layout/DoctorShell";
 import { useClinic } from "../../hooks/useClinic";
 
 export default function SettingsPage() {

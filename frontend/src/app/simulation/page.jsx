@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import DoctorShell from "../../components/DoctorShell";
-import InputPanel from "../../components/InputPanel";
+import DoctorShell from "../../components/layout/DoctorShell";
+import InputPanel from "../../components/panels/InputPanel";
 import { useClinic } from "../../hooks/useClinic";
 
 const SAMPLE_NOTE =

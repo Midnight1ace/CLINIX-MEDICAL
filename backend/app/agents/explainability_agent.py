@@ -1,4 +1,4 @@
-from __future__ import annotations
+from typing import List
 
 from ..models.patient import PatientData
 from ..models.risk import RiskItem
@@ -7,11 +7,11 @@ from ..services.llm_service import LLMService
 
 def run_explainability(
     patient: PatientData,
-    risks: list[RiskItem],
-    recommendations: list[str],
+    risks: List[RiskItem],
+    recommendations: List[str],
     llm: LLMService,
-) -> list[str]:
-    explanations: list[str] = []
+) -> List[str]:
+    explanations: List[str] = []
 
     for risk in risks:
         explanations.append(f"{risk.title}: {risk.rationale}")

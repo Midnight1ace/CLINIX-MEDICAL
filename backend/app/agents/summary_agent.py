@@ -1,11 +1,11 @@
-from __future__ import annotations
+from typing import List
 
 from ..models.patient import PatientData
 from ..services.llm_service import LLMService
 
 
 def run_summary(patient: PatientData, llm: LLMService) -> str:
-    parts: list[str] = []
+    parts: List[str] = []
 
     if patient.age is not None:
         parts.append(f"{patient.age}-year-old patient.")
@@ -14,7 +14,7 @@ def run_summary(patient: PatientData, llm: LLMService) -> str:
         parts.append(f"Symptoms: {', '.join(patient.symptoms)}.")
 
     vitals = patient.vitals
-    vitals_bits: list[str] = []
+    vitals_bits: List[str] = []
     if vitals.bp_systolic is not None and vitals.bp_diastolic is not None:
         vitals_bits.append(f"BP {vitals.bp_systolic}/{vitals.bp_diastolic}")
     if vitals.heart_rate is not None:

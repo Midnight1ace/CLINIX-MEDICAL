@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import DoctorShell from "../components/DoctorShell";
+import DoctorShell from "../components/layout/DoctorShell";
 import { useClinic } from "../hooks/useClinic";
 
 const STATUS_LABELS = {
@@ -198,6 +198,7 @@ export default function Page() {
                   placeholder="Search patients..."
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
+                  autoComplete="off"
                 />
               </div>
               <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
@@ -288,6 +289,7 @@ export default function Page() {
                     placeholder="Search..."
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}
+                    autoComplete="off"
                   />
                   <select
                     className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm"

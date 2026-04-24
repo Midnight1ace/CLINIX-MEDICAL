@@ -93,23 +93,41 @@ export default function PatientLoginPage() {
       ? "text-red-500"
       : "text-slate-400";
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setAttempted(true);
-    setError("");
-    if (!allChecksPass) {
-      setError("Please resolve the failed checks before continuing.");
-      return;
-    }
+   const handleSubmit = async (event) => {
+     event.preventDefault();
+     setAttempted(true);
+     setError("");
+     if (!allChecksPass) {
+       setError("Please resolve the failed checks before continuing.");
+       return;
+     }
 
-    const payload = {
-      role: "patient",
-      patientId: normalizedPatientId,
-      verifiedAt: new Date().toISOString()
-    };
-    setAuth(payload, { remember: form.remember });
-    router.push("/patient");
-  };
+     try {
+       // Call backend login endpoint directly
+       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/patient/login`, {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+         },
+         credentials: 'include',
+         body: JSON.stringify({
+           patientId: normalizedPatientId,
+           dob: form.dob
+         })
+       });
+
+       if (!response.ok) {
+         const errorData = await response.json();
+         throw new Error(errorData.detail || 'Login failed');
+       }
+
+       const result = await response.json();
+       router.push("/patient");
+     } catch (error) {
+       setError(error.message || 'An error occurred during login');
+       setAttempted(false);
+     }
+   };
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
@@ -140,7 +158,7 @@ export default function PatientLoginPage() {
       </div>
 
       <div className="flex-1 flex items-center justify-center px-6 py-10">
-        <form onSubmit={handleSubmit} className="w-full max-w-md card p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="w-full max-w-md card p-8 space-y-6" suppressHydrationWarning>
           <div className="space-y-2">
             <h2 className="text-2xl font-semibold text-slate-900">Patient Login</h2>
             <p className="text-sm text-slate-500">Verify your portal details to continue.</p>
@@ -156,6 +174,7 @@ export default function PatientLoginPage() {
                 value={form.patientId}
                 onChange={updateField("patientId")}
                 required
+                autoComplete="off"
               />
               {patientIndex.portalIds.length > 0 && (
                 <span className="mt-2 block text-xs text-slate-400">
@@ -171,6 +190,7 @@ export default function PatientLoginPage() {
                 value={form.dob}
                 onChange={updateField("dob")}
                 required
+                autoComplete="bday"
               />
             </label>
           </div>
@@ -214,12 +234,12 @@ export default function PatientLoginPage() {
             <p className="text-xs text-slate-500">DOB: {DEMO_PATIENT.dob}</p>
           </div>
 
-          <div className="flex items-center justify-between text-sm text-slate-500">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" checked={form.remember} onChange={updateField("remember")} />
-              Remember me
-            </label>
-          </div>
+           <div className="flex items-center justify-between text-sm text-slate-500">
+             <label className="flex items-center gap-2">
+               <input type="checkbox" checked={form.remember} onChange={updateField("remember")} autoComplete="off" />
+               Remember me
+             </label>
+           </div>
 
           <button
             className="btn-primary w-full disabled:opacity-60 disabled:cursor-not-allowed"

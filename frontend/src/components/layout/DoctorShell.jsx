@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAuth } from "../utils/auth";
+import { getAuth } from "../../utils/auth";
 
 const NAV_SECTIONS = [
   {

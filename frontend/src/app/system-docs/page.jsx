@@ -1,6 +1,6 @@
 "use client";
 
-import DoctorShell from "../../components/DoctorShell";
+import DoctorShell from "../../components/layout/DoctorShell";
 
 const PIPELINE_STEPS = [
   "Ingestion Agent → parse raw text into structured PatientData",

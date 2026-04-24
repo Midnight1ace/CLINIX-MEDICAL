@@ -1,7 +1,7 @@
 "use client";
 
-import DoctorShell from "../../components/DoctorShell";
-import ReportPanel from "../../components/ReportPanel";
+import DoctorShell from "../../components/layout/DoctorShell";
+import ReportPanel from "../../components/panels/ReportPanel";
 import { useClinic } from "../../hooks/useClinic";
 
 export default function ReportsPage() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import DoctorShell from "../../../components/DoctorShell";
+import DoctorShell from "../../../components/layout/DoctorShell";
 import { useClinic } from "../../../hooks/useClinic";
 
 export default function ComparePatientsPage() {

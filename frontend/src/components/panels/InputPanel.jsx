@@ -22,12 +22,13 @@ export default function InputPanel({
           </button>
         )}
       </div>
-      <textarea
-        className="w-full min-h-[200px] rounded-xl border border-white/10 bg-black/30 p-4 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-400"
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        placeholder="Paste patient notes here..."
-      />
+       <textarea
+         className="w-full min-h-[200px] rounded-xl border border-white/10 bg-black/30 p-4 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+         value={value}
+         onChange={(event) => onChange(event.target.value)}
+         placeholder="Paste patient notes here..."
+         autoComplete="off"
+       />
       <div className="flex items-center gap-3">
         <button className="btn-primary" onClick={onAnalyze} type="button" disabled={loading}>
           {loading ? "Analyzing..." : actionLabel}

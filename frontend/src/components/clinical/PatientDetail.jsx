@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import ExplainabilityModal from "./ExplainabilityModal";
-import InputPanel from "./InputPanel";
+import ExplainabilityModal from "../modals/ExplainabilityModal";
+import InputPanel from "../panels/InputPanel";
 import Recommendations from "./Recommendations";
 import RiskAlerts from "./RiskAlerts";
 import SummaryCard from "./SummaryCard";

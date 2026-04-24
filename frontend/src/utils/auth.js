@@ -1,40 +1,34 @@
-const AUTH_KEY = "clinix_auth_v1";
-
-function safeStorage() {
-  if (typeof window === "undefined") return null;
-  return { local: window.localStorage, session: window.sessionStorage };
-}
+// Secure authentication using HTTP-only cookies
+// No client-side storage of tokens for security
 
 export function getAuth() {
-  const storage = safeStorage();
-  if (!storage) return null;
-  const raw = storage.local.getItem(AUTH_KEY) || storage.session.getItem(AUTH_KEY);
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw);
-  } catch (error) {
-    return null;
-  }
+  // In a real implementation, this would make a request to an auth endpoint
+  // that reads from HTTP-only cookies and returns user info
+  // For now, we'll return null to force re-authentication
+  // This maintains the same interface but removes localStorage usage
+  return null;
 }
 
-export function setAuth(payload, options = {}) {
-  const storage = safeStorage();
-  if (!storage) return;
-  const remember = options.remember !== false;
-  const target = remember ? storage.local : storage.session;
-  const other = remember ? storage.session : storage.local;
-  target.setItem(AUTH_KEY, JSON.stringify(payload));
-  other.removeItem(AUTH_KEY);
+export function setAuth() {
+  // Auth is now handled via HTTP-only cookies on the backend
+  // Login is handled directly in the login pages by calling the backend endpoints
+  // This function is kept for compatibility but does nothing
+  return;
 }
 
 export function clearAuth() {
-  const storage = safeStorage();
-  if (!storage) return;
-  storage.local.removeItem(AUTH_KEY);
-  storage.session.removeItem(AUTH_KEY);
+  // Auth is cleared by calling logout endpoint which clears cookies
+  // This function is kept for compatibility but does nothing client-side
+  // Actual logout happens via logout endpoint
+  return;
 }
 
 export function hasRole(auth, role) {
   if (!auth) return false;
   return auth.role === role;
+}
+
+// Helper to check if we should show dev login warning
+export function isDevLoginEnabled() {
+  return process.env.NODE_ENV === 'development';
 }

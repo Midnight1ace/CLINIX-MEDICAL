@@ -1,4 +1,4 @@
-from __future__ import annotations
+from typing import List
 
 from ..models.patient import PatientData
 from ..models.risk import RiskItem
@@ -6,9 +6,9 @@ from ..services.llm_service import LLMService
 
 
 def run_recommendations(
-    patient: PatientData, risks: list[RiskItem], llm: LLMService
-) -> list[str]:
-    recs: list[str] = []
+    patient: PatientData, risks: List[RiskItem], llm: LLMService
+) -> List[str]:
+    recs: List[str] = []
     risk_titles = {r.title.lower() for r in risks}
     symptoms = {s.lower() for s in patient.symptoms}
 

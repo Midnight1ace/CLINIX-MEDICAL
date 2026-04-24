@@ -63,23 +63,42 @@ export default function DoctorLoginPage() {
       ? "text-red-500"
       : "text-slate-400";
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setAttempted(true);
-    setError("");
-    if (!allChecksPass) {
-      setError("Please resolve the failed checks before continuing.");
-      return;
-    }
+   const handleSubmit = async (event) => {
+     event.preventDefault();
+     setAttempted(true);
+     setError("");
+     if (!allChecksPass) {
+       setError("Please resolve the failed checks before continuing.");
+       return;
+     }
 
-    const payload = {
-      role: "doctor",
-      email: form.email.trim(),
-      verifiedAt: new Date().toISOString()
-    };
-    setAuth(payload, { remember: form.remember });
-    router.push("/");
-  };
+     try {
+       // Call backend login endpoint directly
+       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/doctor/login`, {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+         },
+         credentials: 'include',
+         body: JSON.stringify({
+           email: form.email.trim(),
+           licenseId: form.licenseId.trim(),
+           password: form.password
+         })
+       });
+
+       if (!response.ok) {
+         const errorData = await response.json();
+         throw new Error(errorData.detail || 'Login failed');
+       }
+
+       const result = await response.json();
+       router.push("/");
+     } catch (error) {
+       setError(error.message || 'An error occurred during login');
+       setAttempted(false);
+     }
+   };
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
@@ -110,7 +129,7 @@ export default function DoctorLoginPage() {
       </div>
 
       <div className="flex-1 flex items-center justify-center px-6 py-10">
-        <form onSubmit={handleSubmit} className="w-full max-w-md card p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="w-full max-w-md card p-8 space-y-6" suppressHydrationWarning>
           <div className="space-y-2">
             <h2 className="text-2xl font-semibold text-slate-900">Doctor Login</h2>
             <p className="text-sm text-slate-500">Use your clinical credentials to continue.</p>
@@ -126,6 +145,7 @@ export default function DoctorLoginPage() {
                 value={form.email}
                 onChange={updateField("email")}
                 required
+                autoComplete="email"
               />
             </label>
             <label className="block text-sm text-slate-600">
@@ -137,6 +157,7 @@ export default function DoctorLoginPage() {
                 value={form.licenseId}
                 onChange={updateField("licenseId")}
                 required
+                autoComplete="organization-title"
               />
             </label>
             <label className="block text-sm text-slate-600">
@@ -148,6 +169,7 @@ export default function DoctorLoginPage() {
                 value={form.password}
                 onChange={updateField("password")}
                 required
+                autoComplete="current-password"
               />
             </label>
           </div>
@@ -192,15 +214,15 @@ export default function DoctorLoginPage() {
             <p className="text-xs text-slate-500">Password: {DEMO_DOCTOR.password}</p>
           </div>
 
-          <div className="flex items-center justify-between text-sm text-slate-500">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" checked={form.remember} onChange={updateField("remember")} />
-              Remember me
-            </label>
-            <Link href="/login" className="text-indigo-600">
-              Patient access
-            </Link>
-          </div>
+           <div className="flex items-center justify-between text-sm text-slate-500">
+             <label className="flex items-center gap-2">
+               <input type="checkbox" checked={form.remember} onChange={updateField("remember")} autoComplete="off" />
+               Remember me
+             </label>
+             <Link href="/login" className="text-indigo-600">
+               Patient access
+             </Link>
+           </div>
 
           <button
             className="btn-primary w-full disabled:opacity-60 disabled:cursor-not-allowed"

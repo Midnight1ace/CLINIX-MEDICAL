@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true
+  reactStrictMode: true,
+  experimental: {
+    optimizePackageImports: ['react', 'react-dom']
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
+  },
+  swcMinify: true
 };
 
 module.exports = nextConfig;

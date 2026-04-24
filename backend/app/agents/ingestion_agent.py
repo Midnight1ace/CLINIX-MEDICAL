@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from ..models.patient import PatientData
 from ..services.llm_service import LLMService
 from ..utils.parser import parse_raw_text

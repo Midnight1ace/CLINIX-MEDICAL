@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import DoctorShell from "../../components/DoctorShell";
+import DoctorShell from "../../components/layout/DoctorShell";
 import { useClinic } from "../../hooks/useClinic";
 
 const STATUS_CLASSES = {

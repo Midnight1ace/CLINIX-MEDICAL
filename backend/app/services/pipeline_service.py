@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from ..agents.orchestrator import run_pipeline
 from ..models.response import AnalysisRequest, AnalysisResponse
 from .llm_service import LLMService
